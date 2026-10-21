@@ -1,1 +1,34 @@
 /local/config/.env
+/local/config/certs/
+
+# Terraform state and local initialization
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!*.tfvars.json.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Kubernetes and local deployment credentials
+**/kubeconfig
+**/kubeconfig.*
+*.pem
+*.key
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

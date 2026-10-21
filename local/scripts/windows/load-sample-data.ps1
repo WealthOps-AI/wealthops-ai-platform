@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-Push-Location (Join-Path $PSScriptRoot '..\..')
+Push-Location (Join-Path $PSScriptRoot '..\..\..')
 try {
     $envFile = '.\local\config\.env'
     if (-not (Test-Path -LiteralPath $envFile)) {

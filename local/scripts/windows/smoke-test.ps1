@@ -1,7 +1,12 @@
 $ErrorActionPreference = 'Stop'
-$baseUrl = 'http://localhost:8000'
+$baseUrl = 'https://wealthops-ai.local'
+$httpStatus = & curl.exe --silent --show-error --output NUL --write-out '%{http_code}' --max-redirs 0 'http://wealthops-ai.local/'
+if ($LASTEXITCODE -ne 0 -or $httpStatus -ne '308') {
+    throw "Expected HTTP to redirect to HTTPS with status 308; received HTTP $httpStatus."
+}
 
 try {
+    Invoke-WebRequest -Uri "$baseUrl/" -Method Get | Out-Null
     Invoke-WebRequest -Uri "$baseUrl/api/v1/accounts" -Method Get | Out-Null
     throw 'Expected an unauthenticated API request to return HTTP 401.'
 }
@@ -27,4 +32,4 @@ if ($null -eq $accounts.items) {
     throw 'The authenticated accounts endpoint did not return the expected page response.'
 }
 
-Write-Output "Smoke test passed: unauthenticated request rejected; authenticated request returned $($accounts.total) seeded accounts."
+Write-Output "Smoke test passed: trusted HTTPS is available, HTTP redirects to HTTPS, unauthenticated API access is rejected, and authenticated API access returned $($accounts.total) seeded accounts."
